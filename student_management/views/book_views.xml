@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Kanban View -->
+        <record id="view_book_kanban" model="ir.ui.view">
+            <field name="name">library.book.kanban</field>
+            <field name="model">library.book</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_details">
+                                <strong><field name="name"/></strong>
+                                <br/>
+                                <span>SL sinh viên: <t t-esc="record.student_id.value or ''"/></span>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_book_form" model="ir.ui.view">
+            <field name="name">library.book.form</field>
+            <field name="model">library.book</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="book_code" readonly="1"/>
+                            <field name="name"/>
+                            <field name="publish_year"/>
+                            <field name="author"/>
+                            <field name="student_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="view_book_tree" model="ir.ui.view">
+            <field name="name">library.book.tree</field>
+            <field name="model">library.book</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="book_code"/>
+                    <field name="name"/>
+                    <field name="publish_year"/>
+                    <field name="author"/>
+                    <field name="student_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Calendar View -->
+        <record id="view_book_calendar" model="ir.ui.view">
+            <field name="name">library.book.calendar</field>
+            <field name="model">library.book</field>
+            <field name="arch" type="xml">
+                <calendar>
+                    <field name="publish_year"/>
+                    <field name="name"/>
+                </calendar>
+            </field>
+        </record>
+
+        <menuitem id="menu_library"
+          name="Library"
+          groups="group_student_manager"/>
+        <field name="book_code" groups="group_student_manager"/>
+
+        <menuitem id="salary_book_menu" name="Salary Book" sequence="2"/>
+
+
+        <menuitem id="book_menu" name="Salary Book" parent="student_management_menu" sequence="15"/>
+
+        <record id="action_book" model="ir.actions.act_window">
+            <field name="name">Thư viện</field>
+            <field name="res_model">library.book</field>
+            <field name="view_mode">tree,form,kanban,calendar</field>
+        </record>
+
+        <menuitem id="book_menu" name="List Book" parent="student_management_menu" action="action_book"/>
+    </data>
+</odoo>

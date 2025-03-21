@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    <record id="view_student_tree" model="ir.ui.view">
+        <field name="name">student.student.tree</field>
+        <field name="model">student.student</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="student_code"/>
+                <field name="name"/>
+                <field name="display_name"/>
+                <field name="birth_date"/>
+                <field name="email"/>
+                <field name="phone"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_student_form" model="ir.ui.view">
+        <field name="name">student.student.form</field>
+        <field name="model">student.student</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="student_code"/>
+                        <field name="name"/>
+                        <field name="display_name" readonly="1"/>
+                        <field name="birth_date"/>
+                        <field name="email"/>
+                        <field name="phone"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_student_search" model="ir.ui.view">
+        <field name="name">student.student.search</field>
+        <field name="model">student.student</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="student_code"/>
+                <field name="name"/>
+                <group expand="0" string="Nhóm">
+                    <filter name="group_by_birth" string="Ngày sinh" domain="[]" context="{'group_by':'birth_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_partner_form_inherit_student" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.student</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group" position="inside">
+                <group>
+                    <field name="is_student"/>
+                    <field name="student_id" invisible="not is_student"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_student_kanban" model="ir.ui.view">
+    <field name="name">student.student.kanban</field>
+    <field name="model">student.student</field>
+    <field name="arch" type="xml">
+        <kanban>
+            <field name="name"/>
+            <field name="student_code"/>
+            <field name="display_name"/>
+            <field name="birth_date"/>
+            <field name="email"/>
+            <field name="phone"/>
+
+            <templates>
+                <t t-name="kanban-box">
+                    <div class="oe_kanban_global">
+                        <div class="oe_kanban_details">
+                            <strong><field name="name"/></strong>
+                            <br/>
+                            <span><field name="student_code"/></span>
+                            <br/>
+                            <span><field name="display_name"/></span>
+                            <br/>
+                            <span><field name="birth_date"/></span>
+                            <br/>
+                            <span><field name="email"/></span>
+                            <br/>
+                            <span><field name="phone"/></span>
+                        </div>
+                    </div>
+                </t>
+            </templates>
+        </kanban>
+    </field>
+</record>
+
+
+
+
+    <menuitem id="student_management_menu" name="School Manager" sequence="1"/>
+
+
+    <menuitem id="student_menu" name="List Students" parent="student_management_menu" sequence="10"/>
+
+    <record id="action_student" model="ir.actions.act_window">
+        <field name="name">Student</field>
+        <field name="res_model">student.student</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+    <menuitem id="menu_student" name="List Students" parent="student_menu" action="action_student"/>
+    </data>
+</odoo>
